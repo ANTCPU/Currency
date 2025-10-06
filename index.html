@@ -1,204 +1,401 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AntCoin - Digital Currency Platform</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antcoin - Digital Currency Exchange</title>
     <style>
-        :root {
-            --antcoin-primary: #ff6b35;
-            --antcoin-secondary: #2c3e50;
-            --antcoin-accent: #f39c12;
-            --antcoin-dark: #1a1a1a;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--antcoin-dark) 0%, var(--antcoin-secondary) 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: white;
+            color: #333;
         }
         
-        .app-container {
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         
-        .top-section {
-            flex: 1;
-            min-height: 50vh;
-            padding: 20px 0;
-            background: rgba(255, 107, 53, 0.1);
-            border-bottom: 2px solid var(--antcoin-primary);
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
         }
         
-        .bottom-section {
-            flex: 1;
-            min-height: 50vh;
-            padding: 20px 0;
-            background: rgba(44, 62, 80, 0.1);
-        }
-        
-        .antcoin-logo {
+        .header h1 {
             font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--antcoin-primary);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .buy-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .current-price {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .price-display {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .price-change {
+            font-size: 0.9rem;
+            color: #27ae60;
         }
         
         .balance-display {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid var(--antcoin-primary);
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #e8f5e8;
+            border-radius: 12px;
         }
         
-        .section-header {
-            color: var(--antcoin-accent);
+        .balance-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .balance-amount {
+            font-size: 1.5rem;
             font-weight: 600;
+            color: #27ae60;
+        }
+        
+        .preset-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
         
-        @media (max-width: 768px) {
-            .antcoin-logo {
-                font-size: 2rem;
-            }
-            
-            .top-section, .bottom-section {
-                min-height: 45vh;
-                padding: 15px 0;
-            }
+        .preset-btn {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        @media (max-width: 576px) {
-            .antcoin-logo {
-                font-size: 1.8rem;
+        .preset-btn:hover, .preset-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .custom-amount {
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .conversion-display {
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .buy-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .buy-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .wallet-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            flex-grow: 1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .history-table th,
+        .history-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+        
+        .history-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .status-completed {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            color: #f39c12;
+            font-weight: 600;
+        }
+        
+        .portfolio-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .portfolio-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
             }
             
-            .balance-display {
-                padding: 15px;
-                margin: 15px 0;
+            .preset-amounts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .history-table {
+                font-size: 0.8rem;
+            }
+            
+            .history-table th,
+            .history-table td {
+                padding: 8px 4px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- TOP SECTION: BUY NOW INTERFACE -->
-        <div class="top-section">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-8 col-lg-6">
-                        <!-- Header -->
-                        <div class="text-center mb-4">
-                            <div class="antcoin-logo">🐜 ANTCOIN</div>
-                            <p class="lead">Digital Currency Platform</p>
-                        </div>
-                        
-                        <!-- Balance Display -->
-                        <div class="balance-display text-center">
-                            <h3 class="section-header">Current Balance</h3>
-                            <div class="display-4 text-warning">
-                                <span id="antcoin-balance">0.00</span> ATC
-                            </div>
-                            <small class="text-muted">≈ $<span id="usd-balance">0.00</span> USD</small>
-                        </div>
-                        
-                        <!-- BUY NOW Section Placeholder -->
-                        <div class="text-center">
-                            <h4 class="section-header">🚀 BUY ANTCOIN</h4>
-                            <p class="text-muted">Purchase interface will be implemented in Step 2</p>
-                            <div class="row g-2 mb-3">
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-warning w-100" disabled>$10</button>
-                                </div>
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-warning w-100" disabled>$25</button>
-                                </div>
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-warning w-100" disabled>$50</button>
-                                </div>
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-warning w-100" disabled>$100</button>
-                                </div>
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-warning w-100" disabled>$500</button>
-                                </div>
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-warning w-100" disabled>Custom</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>🐜 ANTCOIN</h1>
+            <div class="subtitle">Digital Currency Exchange</div>
         </div>
         
-        <!-- BOTTOM SECTION: WALLET HISTORY -->
-        <div class="bottom-section">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-8">
-                        <h4 class="section-header text-center">📊 Transaction History</h4>
-                        
-                        <!-- History Table Placeholder -->
-                        <div class="table-responsive">
-                            <table class="table table-dark table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Type</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="4" class="text-center text-muted">
-                                            No transactions yet. Start by purchasing AntCoin above!
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="text-center mt-3">
-                            <small class="text-muted">
-                                Transaction history will be fully implemented in Step 4
-                            </small>
-                        </div>
-                    </div>
+        <!-- TOP HALF: BUY NOW INTERFACE -->
+        <div class="buy-section">
+            <div class="current-price">
+                <div class="price-display">$123.96</div>
+                <div class="price-change">+0.04% (24h)</div>
+                <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                    Last updated: <span id="lastUpdate">Just now</span>
+                </div>
+            </div>
+            
+            <div class="balance-display">
+                <div class="balance-label">Current Balance</div>
+                <div class="balance-amount">0.00 ANTCOIN</div>
+            </div>
+            
+            <div class="preset-amounts">
+                <button class="preset-btn" data-amount="10">$10</button>
+                <button class="preset-btn" data-amount="25">$25</button>
+                <button class="preset-btn" data-amount="50">$50</button>
+                <button class="preset-btn" data-amount="100">$100</button>
+                <button class="preset-btn" data-amount="500">$500</button>
+                <button class="preset-btn" id="customBtn">Custom</button>
+            </div>
+            
+            <div class="custom-amount">
+                <div class="input-group">
+                    <label for="customAmount">Custom Amount (USD)</label>
+                    <input type="number" id="customAmount" placeholder="Enter amount..." min="1" step="0.01">
+                </div>
+                
+                <div class="conversion-display" id="conversionDisplay">
+                    Enter amount to see Antcoin conversion
+                </div>
+            </div>
+            
+            <button class="buy-btn" id="buyBtn">BUY ANTCOIN</button>
+        </div>
+        
+        <!-- BOTTOM HALF: WALLET HISTORY -->
+        <div class="wallet-section">
+            <h2 class="section-title">Wallet History</h2>
+            
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr>
+                        <td>Oct 5, 2025</td>
+                        <td>0.4032 ANTCOIN</td>
+                        <td>Purchase</td>
+                        <td class="status-completed">Completed</td>
+                        <td>$123.45</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 3, 2025</td>
+                        <td>0.2016 ANTCOIN</td>
+                        <td>Purchase</td>
+                        <td class="status-pending">Pending</td>
+                        <td>$124.20</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 1, 2025</td>
+                        <td>0.8064 ANTCOIN</td>
+                        <td>Purchase</td>
+                        <td class="status-completed">Completed</td>
+                        <td>$122.80</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="portfolio-summary">
+                <div style="margin-bottom: 10px; color: #666;">Total Portfolio Value</div>
+                <div class="portfolio-value">$150.32</div>
+                <div style="font-size: 0.9rem; color: #27ae60; margin-top: 5px;">
+                    +2.1% since last purchase
                 </div>
             </div>
         </div>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin=anonymous"></script>
-    
     <script>
-        // Basic mobile responsiveness test
-        function testMobileResponsiveness() {
-            const isMobile = window.innerWidth <= 768;
-            console.log(`Screen width: ${window.innerWidth}px - Mobile: ${isMobile}`);
-            
-            // Update balance display for demo
-            document.getElementById('antcoin-balance').textContent = '0.00';
-            document.getElementById('usd-balance').textContent = '0.00';
+        // Basic interactivity for preset buttons
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                if (this.id === 'customBtn') {
+                    document.getElementById('customAmount').focus();
+                } else {
+                    const amount = this.dataset.amount;
+                    document.getElementById('customAmount').value = amount;
+                    updateConversion(amount);
+                }
+            });
+        });
+        
+        // Custom amount input handler
+        document.getElementById('customAmount').addEventListener('input', function() {
+            const amount = this.value;
+            if (amount) {
+                updateConversion(amount);
+                document.getElementById('customBtn').classList.add('active');
+            }
+        });
+        
+        // Conversion calculation
+        function updateConversion(usdAmount) {
+            const antcoinPrice = 123.96;
+            const antcoinAmount = (usdAmount / antcoinPrice).toFixed(6);
+            document.getElementById('conversionDisplay').textContent = 
+                `$${usdAmount} = ${antcoinAmount} ANTCOIN`;
         }
         
-        // Test on load and resize
-        window.addEventListener('load', testMobileResponsiveness);
-        window.addEventListener('resize', testMobileResponsiveness);
+        // Buy button handler
+        document.getElementById('buyBtn').addEventListener('click', function() {
+            const amount = document.getElementById('customAmount').value;
+            if (amount && amount > 0) {
+                alert(`Purchase initiated for $${amount} worth of Antcoin`);
+            } else {
+                alert('Please select or enter an amount');
+            }
+        });
         
-        console.log('✅ Step 1 Complete: Basic HTML Structure with Bootstrap 5.3.8');
-        console.log('✅ Mobile-first responsive design implemented');
-        console.log('✅ Top-half container ready for BUY NOW interface');
-        console.log('✅ Bottom-half container ready for wallet history');
-        console.log('✅ Viewport meta tag configured');
-        console.log('🔄 Ready for Step 2: Design Top-Half BUY NOW Interface');
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = 
+                now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        setInterval(updateTimestamp, 30000); // Update every 30 seconds
     </script>
 </body>
 </html>
